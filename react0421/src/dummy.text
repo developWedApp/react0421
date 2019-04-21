@@ -1,0 +1,215 @@
+
+/**
+ * component를 만들기 위해 함수 형태로 만듦
+ * prop - > 부모가 자식에게 넘겨주는 것
+ * 
+ */
+
+
+// function Profile(props){
+//     const style ={
+//         backgroudColor: props.bg,
+//         color: props.color
+//     }
+//     return <h1 style={{style}}>{myName}{myAge}</h1>
+// }
+
+//렌더라는 함수는 프롭스를 넘겨받지 않는다. 클래스 내의 프롭스를 쓴다.
+class Profile extends Component{
+    static defaultProps = {
+        bg: "blue",
+        color: "white"
+    }
+    render(){
+    const{bg, color} = this.props;
+    const style ={
+
+            backgroudColor: bg,
+            color: color
+        }
+    return <h1 style={style}>{myName} {myAge}</h1>
+    }
+}
+
+// Profile.defaultProps = {
+//     bg: "blue",
+//     color:"white"
+// }
+
+const myName = "jack";
+const myAge = 20;
+
+const view =<Fragment>
+            <h1>Hello, world!</h1>
+            <h1>Okay</h1>
+            <h1 className="card">{myName} {myAge}</h1>
+            <h1 style={{backgroudColor: "crimson", color:"white"}}>{myName} {myAge}</h1>
+            <Profile bg="crimson" color="white"></Profile>
+            <Profile></Profile>
+            </Fragment> 
+
+
+
+
+
+-------------------------------------------------------------------------------------
+
+  // constructor(props){
+  //   super(props);
+    // this.state = {
+    //   count: 0,
+    // }
+    // this.increaseCount = this.increaseCount.bind(this)
+    // this.decreaseCount = this.decreaseCount.bind(this)
+  // }
+
+  // increaseCount(){
+  //   console.log("increase")
+  //   this.setState({
+  //     count:this.state.count+1
+  //   })
+  // }
+
+  // decreaseCount(){
+  //   console.log("decrease")
+  //   this.setState({
+  //     count:this.state.count-1
+  //   })
+  // }
+  //호출되는 시점에 따라 디스가 달라진다.
+
+  state = {
+    count: 0,
+  }
+
+  increaseCount = () => {
+    console.log("increase")
+    this.setState({
+      count:this.state.count+1
+    })
+  }
+
+  decreaseCount = () => {
+    console.log("decrease")
+    this.setState({
+      count:this.state.count-1
+    })
+  }
+
+
+
+  render() {
+    const {count} = this.state;
+
+    // if(count > 10){
+    //   return <h1>초과입니다.</h1>
+    // }
+
+    return (
+      count>10?
+      <h1>초과입니다.</h1>:
+      <Fragment>
+      <h1>{count}</h1>
+      <button onClick={this.increaseCount}>up</button>
+      <button onClick={this.decreaseCount}>down</button>
+      </Fragment>
+    );
+  }
+}
+
+------------------------------
+
+//props - > number, onNumberClick 
+class NumberItem extends Component{
+  static defaultProps = {
+    number:0,
+  }
+
+  onClick = (e) => {
+    if(this.props.onNumberClick){
+      this.props.onNumberClick(e);
+    }
+  }
+ 
+  render()
+  {
+    const {number} = this.props;
+    const style = {
+      backgroundColor:"crimson", 
+      color:"white",
+      padding:"16px",
+      margin:"16px",
+      fontWeight:"bold",
+      fontSize:"30px",
+      display:"inline-block"
+    }
+ 
+    return <div style={style} onClick={this.onClick}>{number}</div>
+  }
+}
+
+---------------------------------------------------------------
+
+ constructor(props){
+    super(props);
+    console.log("constructor")
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState){
+    console.log("getDerivedStateFromProps")
+    return null
+  }
+
+  componentDidMount(){
+    console.log("componenetDidMount")
+  }
+
+  //return true - > 렌더함수 호출 ,  return false 렌더함수 비호출
+  
+  shouldComponentUpdate(nextProps, nextState){
+    console.log("shouldComponentUpdate")
+    if(nextState.number>10){
+      return false;
+    }
+    return true;
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot){
+    console.log("componentDidUpdate")
+  }
+
+  getSnapshotBeforeUpdate(prevProps, prevState){
+    console.log("getSnapshotBeforeUpdate")
+    const snapshot = {}
+      return snapshot
+  }
+
+  componentWillUnmount(){
+    console.log("componentWillUnmount")
+  }
+
+  componentDidCatch(error,info){
+    console.log("componentDidCatch")
+  }
+
+
+  state = {
+    number:7
+  }
+
+  onClick = () => {
+   this.setState({
+     number:this.state.number + 1,
+   })
+
+  }
+
+
+  render() {
+    console.log("render")
+    const {number} = this.state;
+    return <h1 onClick={this.onClick}>{number}</h1>
+      
+    
+  }
+}
