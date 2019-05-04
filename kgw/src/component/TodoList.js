@@ -7,9 +7,9 @@ class TodoList extends Component {
     }
 
     render(){
-        const {todos} = this.props;
+        const {todos, onItemDelete} = this.props;
         const list = todos.map((item, index) => {
-            return <TodoItem key={index} id={index+1} content={item} />
+            return <TodoItem key={index} id={index+1} index={index} content={item} onClick={onItemDelete} />
       
           })
       
